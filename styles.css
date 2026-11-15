@@ -95,3 +95,4 @@ footer{text-align:center;color:var(--mute);font-size:13px;padding:24px}
 .anuncio span{display:block;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--mute);text-align:center;margin-bottom:4px}
 
 .neon{color:#fff;font-family:Bungee;text-shadow:0 0 6px #ff4fa0,0 0 16px #ff4fa0,0 0 30px #7cf0ff;letter-spacing:.02em}
+.ruleta{display:flex;gap:16px;align-items:center;flex-wrap:wrap}.ruleta p{margin:4px 0}

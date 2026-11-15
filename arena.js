@@ -38,7 +38,22 @@
   // ---------- mapa ----------
   const drawMap = (sel) => {
     $('map').innerHTML = `<defs><radialGradient id="g" cx="50%" cy="45%"><stop offset="0" stop-color="#3b2860"/><stop offset="1" stop-color="#0f0819"/></radialGradient></defs><circle cx="250" cy="255" r="235" fill="url(#g)" stroke="#ffd060" stroke-width="4" stroke-dasharray="10 8"/>` +
-      ZONAS.map((z) => { const open = st.e.abiertas.includes(z.id); return `<g opacity="${open ? 1 : 0.35}"><ellipse cx="${z.x}" cy="${z.y + 32}" rx="90" ry="20" fill="#000" opacity=".4"/><circle cx="${z.x}" cy="${z.y}" r="${z.id === sel ? 86 : 78}" fill="${z.c}" stroke="${z.id === sel ? '#ffd060' : '#fff'}" stroke-width="${z.id === sel ? 7 : 3}"/><text class="zl" x="${z.x}" y="${z.y + 4}" text-anchor="middle">${z.id.toUpperCase()}</text><text class="zn" x="${z.x}" y="${z.y + 30}" text-anchor="middle">${open ? fmt(st.e.zonas[z.id]) + ' en pie' : 'CERRADA'}</text></g>`; }).join('');
+      ZONAS.map((z) => { const open = st.e.abiertas.includes(z.id); return `<g opacity="${open ? 1 : 0.35}"><ellipse cx="${z.x}" cy="${z.y + 32}" rx="90" ry="20" fill="#000" opacity=".4"/><circle cx="${z.x}" cy="${z.y}" r="${z.id === sel ? 86 : 78}" fill="${z.c}" stroke="${z.id === sel ? '#ffd060' : '#fff'}" stroke-width="${z.id === sel ? 7 : 3}"/><text class="zl" x="${z.x}" y="${z.y + 4}" text-anchor="middle">${z.id.toUpperCase()}</text><text class="zn" x="${z.x}" y="${z.y + 30}" text-anchor="middle">${open ? fmt((st.e.inscritos || {})[z.id] || 0) + ' inscritos' : 'CERRADA'}</text></g>`; }).join('');
+  };
+
+  // ---------- ruleta de cierres ----------
+  let ruletaVista = '';
+  const drawRuleta = () => {
+    const c = st.e.cierres || [], box = $('ruleta'); if (!box) return;
+    const ult = c[c.length - 1], prox = [10, 17, 23].find((d) => !c.some((x) => x.dia === d));
+    const n = ZONAS.length, seg = 360 / n;
+    const rueda = ZONAS.map((z, i) => { const a0 = (i * seg - 90) * Math.PI / 180, a1 = ((i + 1) * seg - 90) * Math.PI / 180, am = (a0 + a1) / 2, cerr = c.some((x) => x.zona === z.id); return `<path d="M100 100 L${100 + 92 * Math.cos(a0)} ${100 + 92 * Math.sin(a0)} A92 92 0 0 1 ${100 + 92 * Math.cos(a1)} ${100 + 92 * Math.sin(a1)}Z" fill="${z.c}" opacity="${cerr ? 0.25 : 1}" stroke="#0f0819" stroke-width="3"/><text x="${100 + 58 * Math.cos(am)}" y="${104 + 58 * Math.sin(am)}" text-anchor="middle" font-family="Bungee" font-size="11" fill="#fff" transform="rotate(${(i + 0.5) * seg} ${100 + 58 * Math.cos(am)} ${100 + 58 * Math.sin(am)})">${z.id.toUpperCase()}</text>`; }).join('');
+    const idx = ult ? ZONAS.findIndex((z) => z.id === ult.zona) : 0, giro = ult ? 360 * 6 - (idx + 0.5) * seg : 0;
+    const clave = ult ? ult.dia + ult.zona : 'nada';
+    box.innerHTML = `<div class="ruedaw"><svg viewBox="0 0 200 200" width="220" height="220" aria-hidden="true"><g id="rueda" style="transform-origin:100px 100px;transition:transform ${ruletaVista === clave ? 0 : 4.5}s cubic-bezier(.12,.75,.12,1)">${rueda}</g><circle cx="100" cy="100" r="14" fill="#ffd060"/><path d="M100 2 L90 22 L110 22Z" fill="#fff"/></svg></div>` +
+      `<div><h3 style="font-size:22px;margin:0 0 6px">La ruleta de la arena</h3><p class="note">Los días 10, 17 y 23 se cierra una zona, y nadie sabe cuál: la decide la ruleta un día antes. Si la tuya cae, te mudas a la fuerza.</p>${c.map((x) => `<p><b>Día ${x.dia}:</b> se cierra <b style="color:var(--gold)">${esc(x.zona)}</b></p>`).join('')}${prox ? `<p class="note">Próximo giro: día ${prox - 1}</p>` : ''}</div>`;
+    requestAnimationFrame(() => requestAnimationFrame(() => { const r = document.getElementById('rueda'); if (r) r.style.transform = `rotate(${giro}deg)`; }));
+    ruletaVista = clave;
   };
 
   // ---------- datos en vivo ----------
@@ -51,7 +66,7 @@
   }
 
   function render() {
-    const e = st.e, D = e.dia; $('sVivos').textContent = fmt(e.vivos); drawMap(st.yo ? undefined : undefined);
+    const e = st.e, D = e.dia; $('sVivos').textContent = fmt(e.vivos); drawMap(st.yo ? undefined : undefined); drawRuleta();
     const hechas = st.yo?.hechas || [];
     $('todo').innerHTML = [
       ...(D <= CONFIG.cierreInscripcion ? [['ENTRAR', `Crea tu cuenta y entra a La Arena con tu usuario de Instagram. Inscripción hasta el día ${CONFIG.cierreInscripcion}.`]] : []),
