@@ -3,7 +3,7 @@
   const CONFIG = {
     supabaseUrl: 'https://shncnofgelobyskwghse.supabase.co',
     supabaseKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNobmNub2ZnZWxvYnlza3dnaHNlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQ2ODI1ODAsImV4cCI6MjExMDI1ODU4MH0.-yjQWT9hiiY7u-aP_lt4C2gJKAnQ_g2tnXcvWUfap_0',
-    inicio: '2026-11-15', cierreInscripcion: 10,
+    inicio: '2026-11-16', cierreInscripcion: 10,
   };
   const LINKS = [
     { c: 'ig', n: 'Instagram', h: '@baul_de_relatos', u: 'https://www.instagram.com/baul_de_relatos/', i: '<svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="#fff" stroke-width="2"/><circle cx="12" cy="12" r="4" fill="none" stroke="#fff" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.3" fill="#fff"/></svg>' },
