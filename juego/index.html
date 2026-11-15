@@ -30,7 +30,6 @@ html, body { margin: 0; height: 100%; background: var(--fondo); color: var(--cre
 #ui { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; transform-origin: 0 0; font-size: 48px; line-height: 1.25; }
 .lado { display: none; max-width: 340px; }
 @media (min-width: 1024px) {
-  :root { --franja: 0px; }
   #escena { border: 6px solid var(--tinta); border-radius: 28px; box-shadow: 0 0 0 3px #3A3350, 0 30px 80px rgba(0,0,0,.6); }
   .lado { display: block; }
   .lado h1 { font: 400 40px/1.05 Bungee, sans-serif; margin: 0 0 12px; }
@@ -346,7 +345,8 @@ button.barra-rango { background: none; border: 0; cursor: pointer; padding: 0; }
 </div>
 <button id="pc" type="button" aria-label="Pantalla completa" title="Pantalla completa"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button>
 <script src="pantalla.js" defer></script>
-<div id="franja" aria-hidden="true"></div>
+<div id="franja" data-anuncio="juego-franja" aria-hidden="true"></div>
+<script src="/ads.js" defer></script>
 <div id="gira">Gira tu teléfono</div>
 <div id="voz" aria-live="polite" style="position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)"></div>
 <noscript>Este juego necesita JavaScript.</noscript>
