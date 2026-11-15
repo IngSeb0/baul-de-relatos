@@ -27,7 +27,7 @@
   // ---------- cabecera ----------
   const tick = () => {
     const d = diaDe(), b = bogota(), next = new Date(b); next.setUTCHours(24, 0, 0, 0); const ms = next - b, p = (x) => String(x).padStart(2, '0');
-    $('sDia').textContent = d < 1 ? 'PRONTO' : d > 30 ? 'FIN' : d + '/30'; $('sDiaL').textContent = d < 1 ? 'Empieza esta noche' : 'Día';
+    $('sDia').textContent = d < 1 ? 'PRONTO' : d > 60 ? 'FIN' : d + '/60'; $('sDiaL').textContent = d < 1 ? 'Empieza esta noche' : 'Día';
     $('sReloj').textContent = `${p(Math.floor(ms / 36e5))}:${p(Math.floor(ms / 6e4) % 60)}:${p(Math.floor(ms / 1e3) % 60)}`;
     $('sRelojL').textContent = d < 1 ? 'Para el día 1' : 'Próxima noche';
   };
