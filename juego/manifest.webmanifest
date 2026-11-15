@@ -1,0 +1,29 @@
+{
+  "name": "Dragones de los Meses",
+  "short_name": "Dragones",
+  "description": "Tu mes de nacimiento decide tu dragón.",
+  "lang": "es",
+  "start_url": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0C0A14",
+  "theme_color": "#0C0A14",
+  "icons": [
+    {
+      "src": "icono-180.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    },
+    {
+      "src": "icono-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icono.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}

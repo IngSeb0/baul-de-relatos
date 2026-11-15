@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>La Arena · 30 días · Baúl de Relatos</title>
+<meta name="description" content="Los seguidores de Baúl de Relatos entran a La Arena. 30 días, un solo superviviente y $50 USD para el último en pie.">
+<meta name="theme-color" content="#0f0819">
+<meta property="og:title" content="La Arena · 30 días, un superviviente">
+<meta property="og:description" content="Entra, consigue agua y comida, vota las tormentas y sobrevive. El último en pie gana $50 USD.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="/arena-preview.png">
+<link rel="icon" href="/juego/icono.svg" type="image/svg+xml">
+<link rel="preload" href="/fonts/Bungee-Regular.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<nav class="nav"><span class="logo">LA ARENA</span><div class="navl"><span class="live"><i></i><span>EN VIVO</span></span><a class="j" href="/juego/">JUEGO</a><button class="ghost" id="loginBtn">Entrar</button></div></nav>
+
+<header class="hero">
+  <svg class="scene" viewBox="0 0 1200 700" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <defs><linearGradient id="ray" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff3d8" stop-opacity=".55"/><stop offset="1" stop-color="#fff3d8" stop-opacity="0"/></linearGradient>
+    <radialGradient id="sand" cx="50%" cy="20%"><stop offset="0" stop-color="#e8bd80"/><stop offset="1" stop-color="#5a3824"/></radialGradient></defs>
+    <g opacity=".9"><path d="M560 0 L380 700 L470 700 Z" fill="url(#ray)"/><path d="M600 0 L560 700 L660 700 Z" fill="url(#ray)"/><path d="M640 0 L760 700 L860 700 Z" fill="url(#ray)"/><path d="M580 0 L180 700 L280 700 Z" fill="url(#ray)" opacity=".6"/><path d="M620 0 L960 700 L1060 700 Z" fill="url(#ray)" opacity=".6"/></g>
+    <g fill="#1d0f2e"><path d="M0 330 Q600 230 1200 330 L1200 700 L0 700Z"/></g>
+    <g id="fans"></g>
+    <ellipse cx="600" cy="690" rx="700" ry="190" fill="url(#sand)"/>
+    <g transform="translate(600 640)"><ellipse cx="0" cy="8" rx="60" ry="12" fill="#000" opacity=".4"/><path d="M-36 -150 Q-64 -60 -56 -4 L58 -6 Q64 -70 36 -150Z" fill="#4a1520"/><ellipse cx="0" cy="-168" rx="34" ry="38" fill="#2e1018"/><path d="M30 -186 Q40 -160 34 -140" stroke="#ffcf9a" stroke-width="4" fill="none"/></g>
+  </svg>
+  <div class="in">
+    <h1>LA ARENA</h1>
+    <p class="sub">Los seguidores de Baúl de Relatos entran. Solo uno sale en pie. El último gana <span style="color:var(--gold)">$50 USD</span>.</p>
+    <div class="score"><div><b id="sDia">—</b><span id="sDiaL">Día</span></div><div><b id="sVivos">0</b><span>En pie</span></div><div><b id="sReloj">--:--:--</b><span id="sRelojL">Próxima noche</span></div></div>
+    <div class="cta"><a class="btn" href="#entrar">Entrar a La Arena</a><a class="btn" style="background:#7cf0ff;color:#0f0819" href="#video">Gana agua ahora</a></div>
+  </div>
+</header>
+
+<section class="band"><div class="wrap">
+  <h2 style="font-size:clamp(26px,4vw,38px)">El día 1 empieza a medianoche (Bogotá)</h2>
+  <p class="note">Así queda en tu país. Cada noche, a esta misma hora, se cierra el día y se aplican las tormentas.</p>
+  <div class="times" id="times"></div>
+</div></section>
+
+<section class="band" id="entrar" style="padding-top:0"><div class="wrap card">
+  <h2 style="font-size:clamp(24px,3.6vw,34px)" id="entTit">Entra a La Arena</h2>
+  <div id="entBody"></div>
+</div></section>
+
+<section class="band" id="video" style="background:#150b24"><div class="wrap vid">
+  <div class="player" id="player"><a class="play" href="https://www.youtube.com/@baulderelatos67" target="_blank" rel="noopener" aria-label="Ver el canal de YouTube"><svg width="40" height="40" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" fill="#fff"/></svg></a></div>
+  <div>
+    <h2 style="font-size:clamp(28px,4.5vw,44px)">Mira el video de hoy y gana 1 agua</h2>
+    <p>Cada día hay un video nuevo. Si lo ves completo aquí con tu cuenta, recibes <b>1 agua</b>. En el video se dice la <b>palabra secreta</b> del día: escríbela abajo y ganas <b>1 comida</b>. Tienes un solo intento por día.</p>
+    <div class="drop"><svg width="26" height="26" viewBox="0 0 24 24"><path d="M12 2C9 7 6 10 6 14a6 6 0 0 0 12 0c0-4-3-7-6-12z" fill="#4ab0ff"/></svg><span id="vidState">Inicia sesión para cobrar tu agua</span></div>
+    <div class="meterbig"><i id="vidBar"></i></div>
+    <form id="palF" class="row" style="margin-top:16px"><label for="pal" style="position:absolute;left:-9999px">Palabra secreta</label><input id="pal" maxlength="20" autocomplete="off" placeholder="palabra secreta del video"><button>Responder</button></form>
+    <p class="err" id="palMsg"></p>
+  </div>
+</div></section>
+
+<section class="band" id="ficha"><div class="wrap grid2">
+  <div>
+    <h2 style="font-size:clamp(26px,4vw,36px);margin-bottom:12px">Busca a un jugador</h2>
+    <form id="f" class="row"><label for="q" style="position:absolute;left:-9999px">Usuario</label><input id="q" autocomplete="off" placeholder="usuario de Instagram"><button>Buscar</button></form>
+    <div class="card" style="margin-top:14px;min-height:240px" id="fichaOut"></div>
+  </div>
+  <div class="mapbox"><svg id="map" viewBox="0 0 500 500" role="img" aria-label="Mapa de la arena con jugadores en pie por zona"></svg></div>
+</div></section>
+
+<section class="band" style="padding-top:0"><div class="wrap cards">
+  <div class="card"><h3 style="font-size:24px">Hoy tienes que</h3><div id="todo"></div><h3 id="evt" style="font-size:22px;margin-top:18px"></h3><p id="evtTxt" class="note"></p><div class="vote" id="vote"></div><p class="err" id="voteMsg"></p>
+    <form id="mudF" class="row" style="margin-top:12px"><label for="mud" style="position:absolute;left:-9999px">Zona</label><select id="mud"></select><button>Mudarme</button></form><p class="note">Mudarte cuesta 1 agua, una vez por día.</p><p class="err" id="mudMsg"></p></div>
+  <div class="card"><h3 style="font-size:24px">Cómo sobrevives</h3><ol class="rules">
+    <li><b>Agua:</b> gastas 1 cada noche. La ganas viendo el video del día aquí. Sin agua, pierdes 1 ❤.</li>
+    <li><b>Comida:</b> gastas 1 cada 2 noches. La ganas escribiendo la palabra secreta del video. Sin comida, pierdes 1 ❤.</li>
+    <li><b>Objetos:</b> los primeros 50 que aciertan la palabra cada día ganan un refugio, un arma o un botiquín.</li>
+    <li><b>Tu zona:</b> la eliges al entrar. Desde el día 4, cada noche se vota entre dos zonas y la menos votada sufre el evento: sus jugadores pierden 1 ❤. El refugio te salva una vez; el arma te protege de las bestias; el botiquín te deja en 1 ❤ si ibas a caer.</li>
+    <li><b>Mudanzas:</b> la arena se encoge y algunas zonas se cierran. Si la tuya se cierra, te mudas a la fuerza. También puedes mudarte cuando quieras (cuesta 1 agua).</li>
+    <li><b>Fogata:</b> cada 3 noches, si tienes agua y comida, recuperas 1 ❤ (máximo 3).</li>
+    <li>Con 0 ❤ caes y pasas a espíritu. Solo para seguidores de @baul_de_relatos: el ganador se verifica antes del premio. Premio para mayores de 18.</li>
+  </ol></div>
+  <div class="card"><h3 style="font-size:24px">Caídos</h3><div class="fallen" id="fallen"></div></div>
+</div></section>
+
+<section class="band game"><div class="wrap">
+  <div><h2 style="font-size:clamp(28px,4.5vw,44px)">Mientras sobrevives… cría tu dragón</h2><p>En <b>Dragones de los Meses</b> tu mes de nacimiento decide tu dragón. Ábrelo, súbelo de nivel, pelea en la arena y suma puntos para tu mes. Tu cuenta es la misma de La Arena.</p><a class="btn" href="/juego/">Jugar ahora</a></div>
+  <a href="/juego/"><img src="/juego/vista-previa.png" alt="Vista previa del juego Dragones de los Meses" width="1200" height="630"></a>
+</div></section>
+
+<section class="band social"><div class="wrap">
+  <h2 style="font-size:clamp(28px,4.5vw,44px)">Síguenos en las tres. Cada una cuenta.</h2>
+  <p style="font-weight:800">Los videos del día salen en Instagram, TikTok y YouTube.</p>
+  <div class="links" id="links"></div>
+</div></section>
+<footer>La Arena · Baúl de Relatos · <a href="/juego/">Dragones de los Meses</a></footer>
+
+<div class="modal" id="mod" role="dialog" aria-modal="true" aria-labelledby="modT"><div class="card">
+  <h3 style="font-size:24px" id="modT">Tu cuenta</h3>
+  <div class="tabs"><button type="button" id="tEnt">Entrar</button><button type="button" class="off" id="tReg">Crear cuenta</button></div>
+  <form id="authF" style="display:grid;gap:10px"><input id="au" placeholder="nombre de jugador (3 a 16, a-z 0-9 _)" autocomplete="username" required><input id="ap" type="password" placeholder="contraseña (mínimo 6)" autocomplete="current-password" required><button id="authB">Entrar</button><button type="button" class="ghost" id="lc">Cancelar</button></form>
+  <p class="note">No pedimos correo. Guarda bien tu contraseña: no se puede recuperar. Es la misma cuenta del juego.</p>
+  <p class="err" id="authMsg"></p>
+</div></div>
+<div class="toast" id="toast" role="status"></div>
+
+<script src="/vendor/supabase.js"></script>
+<script src="/arena.js"></script>
+</body>
+</html>
