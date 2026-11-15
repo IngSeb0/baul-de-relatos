@@ -70,10 +70,10 @@
 
   function renderEntrar() {
     const b = $('entBody');
-    if (!st.user) { $('entTit').textContent = 'Entra a La Arena'; b.innerHTML = `<p>Crea tu cuenta (sin correo, solo nombre y contraseña) y luego entra con tu usuario de Instagram y la zona donde quieres empezar.</p><button id="goLogin">Crear cuenta o entrar</button>`; $('goLogin').onclick = abrirModal; return; }
+    if (!st.user) { $('entTit').textContent = 'Entra a La Arena'; b.innerHTML = `<p><b>Si ya seguías a @baul_de_relatos, ya estás dentro.</b> Busca tu @ abajo y reclámalo: crea tu cuenta (sin correo, solo nombre y contraseña) y escribe tu usuario de Instagram. Si no lo reclamas, tu jugador no puede juntar agua y caerá en las primeras noches.</p><button id="goLogin">Crear cuenta y reclamar mi @</button>`; $('goLogin').onclick = abrirModal; return; }
     if (st.yo?.ig) { $('entTit').textContent = `Estás dentro como @${st.yo.ig}`; b.innerHTML = `<p>Revisa tu ficha y cumple lo de hoy para no quedarte sin agua.</p><button id="verMia">Ver mi ficha</button>`; $('verMia').onclick = () => { $('q').value = st.yo.ig; buscar(st.yo.ig); location.hash = 'ficha'; }; return; }
-    $('entTit').textContent = 'Último paso: tu Instagram y tu zona';
-    b.innerHTML = `<form id="entF" class="act"><input id="eig" placeholder="tu usuario de Instagram (sin @)" maxlength="31" required><select id="ezo">${st.e.abiertas.map((z) => `<option>${z}</option>`).join('')}</select><button>Entrar a La Arena</button></form><p class="note">Usa tu usuario real: el ganador debe seguir a @baul_de_relatos y se verifica antes del premio.</p><p class="err" id="entMsg"></p>`;
+    $('entTit').textContent = 'Último paso: reclama tu @ o entra';
+    b.innerHTML = `<form id="entF" class="act"><input id="eig" placeholder="tu usuario de Instagram (sin @)" maxlength="31" required><select id="ezo">${st.e.abiertas.map((z) => `<option>${z}</option>`).join('')}</select><button>Reclamar / entrar</button></form><p class="note">Si ya me seguías, tu @ ya está en La Arena: escríbelo para reclamarlo (antes del día 1 puedes cambiar tu zona). Usa tu usuario real: el ganador se verifica antes del premio.</p><p class="err" id="entMsg"></p>`;
     $('entF').onsubmit = async (ev) => { ev.preventDefault(); const { data, error } = await sb.rpc('arena_entrar', { usuario: $('eig').value, zona_elegida: $('ezo').value }); $('entMsg').textContent = error ? 'No se pudo conectar. Intenta de nuevo.' : data; if (!error) { toast(data); cargar(); } };
   }
 
@@ -85,7 +85,7 @@
     const { data: j } = await sb.rpc('arena_ficha', { usuario: k });
     if (!j) { out.innerHTML = `<h3 style="font-size:22px">@${esc(k)}</h3><p>No está en La Arena.</p>`; drawMap(); return; }
     const c = Math.max(0, j.corazones);
-    out.innerHTML = `<h3 style="font-size:24px;overflow-wrap:anywhere">@${esc(j.ig)}</h3><span class="tag ${c ? 'ok' : 'no'}">${c ? 'Sigue en pie' : 'Espíritu'}</span><span class="tag">Zona: ${esc(j.zona)}</span>${c && j.agua === 0 ? '<span class="tag warn">¡Sin agua!</span>' : ''}
+    out.innerHTML = `<h3 style="font-size:24px;overflow-wrap:anywhere">@${esc(j.ig)}</h3><span class="tag ${c ? 'ok' : 'no'}">${c ? 'Sigue en pie' : 'Espíritu'}</span><span class="tag">Zona: ${esc(j.zona)}</span>${j.reclamado ? '' : '<span class="tag warn">Sin reclamar</span>'}${c && j.agua === 0 ? '<span class="tag warn">¡Sin agua!</span>' : ''}
       <div class="hearts">${'❤️'.repeat(c)}${'🖤'.repeat(3 - c)}</div>
       <div class="meters">${meter('Agua', j.agua, 5, '#4ab0ff')}${meter('Comida', j.comida, 5, '#e0a050')}</div>
       <div class="bag">${[['refugio', 'Refugio'], ['arma', 'Arma'], ['botiquin', 'Botiquín']].map(([key, l]) => `<span class="item ${j[key] ? '' : 'off'}">${l}</span>`).join('')}</div>
