@@ -142,7 +142,8 @@
       try { const r = await fetch(`${CONFIG.supabaseUrl}/functions/v1/registro`, { method: 'POST', headers: { apikey: CONFIG.supabaseKey, Authorization: `Bearer ${CONFIG.supabaseKey}`, 'Content-Type': 'application/json' }, body: JSON.stringify({ usuario: u, clave: c }) });
         if (!r.ok) { const j = await r.json().catch(() => ({})); $('authMsg').textContent = MSG[j.error] || MSG.error; return; } } catch { $('authMsg').textContent = MSG.error; return; }
     }
-    const { error } = await sb.auth.signInWithPassword({ email: `${u}@jugador.invalid`, password: c });
+    let { error } = await sb.auth.signInWithPassword({ email: `${u}@jugador.invalid`, password: c + 'Aa1!' });
+    if (error && error.status === 400) ({ error } = await sb.auth.signInWithPassword({ email: `${u}@jugador.invalid`, password: c }));   // cuentas creadas antes del sufijo
     if (error) { $('authMsg').textContent = error.status === 400 ? MSG.datos : MSG.error; return; }
     $('mod').classList.remove('on'); $('ap').value = ''; toast('¡Dentro!'); location.hash = 'entrar';
   };
